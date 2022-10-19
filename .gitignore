@@ -1,0 +1,27 @@
+.*
+!.gitignore
+
+# Genereted files
+*.pdf
+!figures/*.pdf
+
+# LaTeX auxiliary files
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.vtc
+*.cut
+*.thm
+
+# Bibtex auxiliary files
+*.bbl
+*.blg
+
+# Backup files
+*.bi~
+*.bac
