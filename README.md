@@ -3,10 +3,12 @@
 This repository contains a starting point for my latex projects for paper manuscripts. Contains a base metadata, `makefile`, `.gitignore`, etc., so that it can be cloned to create a new project/paper. The intended use is:
 
 ```
-git clone --depth=1 git+https://github.org/jakub-oprsal/empty-manuscript
+git clone --depth=1 https://github.com/jakub-oprsal/empty-manuscript
+cd empty-manuscript
 git remote remove origin
-git commit --amend -m "empty manuscript"
+git commit --amend -m "empty manuscript" --date="$(date)"
 ```
+
 
 ## The structure and compiling
 
