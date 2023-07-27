@@ -5,11 +5,22 @@ This repository contains a starting point for my latex projects for paper manusc
 ```
 git clone --depth=1 https://github.com/jakub-oprsal/empty-manuscript
 cd empty-manuscript
-git remote remove origin
-git commit --amend -m "empty manuscript" --date="$(date)"
+make restart
 ```
 
 
-## The structure and compiling
+## Compilation
 
-I use my own system for compiling/writing latex. The paper is compiled from a few files: `meta.yaml` containing the metadata, `macro.tex` containing TeX macros, `*.bib` that contains the bibliography, and `1_introduction.tex`, etc. that contain the content of the paper.  The main file `main.tex` is compiled from metadata and the content of the directory (this requires my `thead` python package which can be installed by `make install-thead` for convenience) using `make`, i.e., running `make main.tex`, or just `make` to get the pdf output.
+The standard setup is a compilation using my custom python packages `thead`, `tmarko`, and a standard LaTeX framework using makefile. Both of the python requirements can be installed by:
+```sh
+python3 -m pip install git+https://github.com/jakub-oprsal/thead git+https://github.com/jakub-oprsal/tmarko
+```
+
+To briefly explain the system, the document is compiled by `make`. Which first create latex sources and then compiles latex (for the details, see makefile). The actual source of the document is then comprised of the following files:
+
+- `meta.yaml` (contains metadata of the paper, e.g., title, authors, funding info)
+- `recipe.yaml` (defines the structure of the latex document, and sources for bibliography)
+- `macro.tex` (all the custom latex macros and packages)
+- `1_introduction.md ...` (the actual content)
+- `empty.bib ...` (bibliography, etc.)
+

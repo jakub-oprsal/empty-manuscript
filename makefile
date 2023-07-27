@@ -9,21 +9,37 @@ default : main.pdf
 macro.tex :
 	true
 
-main.tex : meta.yaml macro.tex makefile | $(SECTIONS)
-	python3 -m thead -c amsart meta.yaml -o $@
+main.tex : meta.yaml recipe.yaml
+	python3 -m thead -c amsart --recipe recipe.yaml $< -o $@
 
-%.aux : %.tex $(SECTIONS)
-	pdflatex -interaction=nonstopmode -halt-on-error $*
+%.tex : %.md
+	python3 -m tmarko $< >$@
 
-%.pdf : %.tex %.bbl %.aux $(SECTIONS)
+%.aux : %.tex macro.tex $(SECTIONS)
+	pdflatex -draftmode -interaction=nonstopmode -halt-on-error $*
+
+%.pdf : %.tex %.bbl %.aux macro.tex $(SECTIONS)
 	pdflatex -interaction=batchmode $*
 
 %.bbl : %.aux *.bib
 	bibtex -terse $*
 	pdflatex -draftmode -interaction=batchmode $*
 
-install-thead :
-	python3 -m pip install git+https://github.com/jakub-oprsal/thead
+arxiv.tgz : main.tex snkart.cls $(FIGURES)
+	tar -cvf $@ $^
+
+restart :
+	git remote remove origin
+	git commit --amend -m "empty manuscript" --date="$(date)"
+
+bibtool : consistency.bib
+	mv consistency.bib temp.bi~
+	bibtool temp.bi~ >consistency.bib
 
 clean :
-	rm *.aux *.blg *.log *.out *.toc *.vtc *.bi~ *.cut | true
+	@echo Cleaning up...
+	@for aux in "*.aux" "*.blg" "*.log" "*.out" "*.toc" "*.vtc" "*~" \
+		"*.cut" "*.bbl" "*.thm" "*.fls" ; do \
+		find . -name "$$aux"; \
+		find . -name "$$aux" -delete; \
+		done

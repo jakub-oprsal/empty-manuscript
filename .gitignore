@@ -4,7 +4,8 @@
 # Genereted files
 *.pdf
 !figures/*.pdf
-main.tex
+*.tex
+!macro.tex
 
 # LaTeX auxiliary files
 *.aux
